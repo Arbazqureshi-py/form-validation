@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation with JavaScript and Jquery</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./jquery.js"></script>
+
+
+</head>
+
+<body>
+
+    <!-- Create a div for show error messages on screen -->
+    <div id="message-box">
+        <div id="errors"></div>
+        <div id="mesg"></div>
+    </div>
+
+    <div class="wrapper">
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" autocomplete="given-name" placeholder="Enter Your Full Name"><br><br>
+
+        <label for="Email">Email: </label>
+        <input type="email" id="Email" name="email" autocomplete="given-name" placeholder="Enter Your Email"><br><br>
+
+
+        <label for="phoneNo">Phone Number: </label>
+        <input type="text" id="phoneNo" name="phoneNo" class="commonInput" autocomplete="given-name" maxlength="10"
+            placeholder="Enter 10 Digit Number"><br><br>
+
+
+        <label for="pass">Password: </label>
+        <input type="password" id="pass" name="pass" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" minlength="8">
+        <input type="checkbox" id="togglePass"> <br><br>
+        <ul class="more">
+            <li>at least one lowercase</li>
+            <li>at least one uppercase</li>
+            <li>at least a Number</li>
+            <li>at least 8 or more characters</li>
+        </ul>
+
+        <label for="confirmpass">Confirm Password: </label>
+        <input type="password" id="confirmpass" name="confirmpass" minlength="8">
+        <input type="checkbox" id="confirmtogglePass"> <br><br>
+
+        <input type="submit" value="Submit" id="submitbutton">
+    </div>
+
+
+
+    <script>
+
+
+        var errorMessage = ""; // declare a error message variable for displaying validation error
+        var missingField = "";
+
+
+        function isEmail(email) {
+
+            var regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+            return regex.test(email);
+        };
+
+
+        $(function () {
+            // 1) Toggle “Password” field
+            $("#togglePass").change(function () {
+                var passInput = $("#pass");
+                if ($(this).is(":checked")) {
+                    passInput.attr("type", "text");
+                } else {
+                    passInput.attr("type", "password");
+                }
+            });
+
+            $("#confirmtogglePass").change(function () {
+
+                var confirmInput = $("#confirmpass");
+                if ($(this).is(":checked")) {
+
+                    confirmInput.attr("type", "text");
+
+                }
+                else {
+                    confirmInput.attr("type", "password");
+                }
+
+            });
+
+        });
+
+
+        $("#submitbutton").click(function () {
+
+
+            // Email validation
+            let email = $("#Email").val();
+            if (!email) {
+                missingField += "<p>Email is required.</p>";
+            } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+                errorMessage += "<p>Invalid email format.</p>";
+            }
+
+
+
+            // Phone validation
+            let phone = $("#phoneNo").val();
+            if (!phone) {
+                missingField += "<p>Phone number is required.</p>";
+            } else if (!/^\d{10}$/.test(phone)) {
+                errorMessage += "<p>Phone number must be 10 digits.</p>";
+            }
+
+            // Password validation
+            let password = $("#pass").val();
+            let isStrongPassword = (
+                password.length >= 8 &&
+                /\d/.test(password) &&
+                /[A-Z]/.test(password) &&
+                /[a-z]/.test(password)
+            );
+            if (!password) {
+                missingField += "<p>Password is required.</p>";
+            } else if (!isStrongPassword) {
+                errorMessage += "<p>Password must be at least 8 characters and include a number, uppercase and lowercase letter.</p>";
+            }
+
+            if (isEmail($("#Email").val()) == false) {
+
+                errorMessage += "<p>Email is not Valid</p>";
+            }
+
+            if ($.isNumeric($("#phoneNo").val()) == false) {
+
+                errorMessage += "<p>Phone Number is not Valid</p>";
+            }
+
+            if ($("#pass").val() != $("#confirmpass").val()) {
+
+                errorMessage += "<p>Password does not Match</p>";
+            }
+
+            //  FINAL CHECK
+            if (errorMessage === "" && missingField === "") {
+                $("#errors").html("<p style='Background-color: #d4edda;'>✅ You are registered!</p>");
+            } else {
+                $("#errors").html(errorMessage + missingField);
+            }
+
+
+            if (
+                $("#pass").val().length >= 8 &&
+                /\d/.test($("#pass").val()) &&          // contains number
+                /[A-Z]/.test($("#pass").val()) &&       // contains uppercase
+                /[a-z]/.test($("#pass").val())          // contains lowercase
+            ) {
+                $("#mesg")
+                    .removeClass("error")
+                    .show();
+            } 
+
+
+
+
+        });
+
+
+
+
+    </script>
+
+
+
+
+
+    <script src="./script.js"></script>
+</body>
+
+</html>
