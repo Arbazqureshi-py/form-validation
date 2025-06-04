@@ -55,15 +55,12 @@
     <script>
 
 
-        var errorMessage = ""; // declare a error message variable for displaying validation error
-        var missingField = "";
 
+        // function isEmail(email) {
 
-        function isEmail(email) {
-
-            var regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-            return regex.test(email);
-        };
+        //     var regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+        //     return regex.test(email);
+        // };
 
 
         $(function () {
@@ -95,6 +92,20 @@
 
 
         $("#submitbutton").click(function () {
+
+            // clear previous messages
+
+            $("#errors").empty();
+            $("#mesg").empty();
+
+            // reset error variables inside the function
+
+            let errorMessage = "";
+            let missingField = "";
+
+            $("html, body").animate({ scrollTop: 0 }, "fast");
+
+            
 
 
             // Email validation
@@ -129,10 +140,6 @@
                 errorMessage += "<p>Password must be at least 8 characters and include a number, uppercase and lowercase letter.</p>";
             }
 
-            if (isEmail($("#Email").val()) == false) {
-
-                errorMessage += "<p>Email is not Valid</p>";
-            }
 
             if ($.isNumeric($("#phoneNo").val()) == false) {
 
