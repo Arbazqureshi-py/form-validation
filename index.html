@@ -29,7 +29,7 @@
 
 
         <label for="phoneNo">Phone Number: </label>
-        <input type="text" id="phoneNo" name="phoneNo" class="commonInput" autocomplete="given-name" maxlength="10"
+        <input type="text" id="phoneNo" name="phoneNo" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
             placeholder="Enter 10 Digit Number"><br><br>
 
 
